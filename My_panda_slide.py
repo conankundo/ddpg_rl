@@ -31,7 +31,7 @@ env = My_PandaSlideEnv(render_mode="rgb_array", reward_type='sparse', control_ty
 images = []
 n = 100
 force1 = [100, 100, 90, 80, 70, 60, 50, 0, 0]
-force2 = [100, 100, 100, 100, 100, 100, 100, 0, 0]
+force2 = [500, 200, 200, 200, 200, 200, 200, 0, 0] 
 env.task.reset()
 env.task.object_type = 0
 for _ in range(100):
@@ -70,7 +70,7 @@ env.sim.close()
 
 images_pil = [Image.fromarray(img) for img in images]
 images_pil[0].save(
-    "D:/UNI/cac_thuat_toan_thich_nghi/pybullet/Slide/gif_force/gg8.gif",
+    "D:/UNI/cac_thuat_toan_thich_nghi/pybullet/Slide/gif_force/gg9.gif",
     save_all=True,
     append_images=images_pil[1:],
     duration=50,  # 50 ms between frames

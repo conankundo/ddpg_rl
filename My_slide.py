@@ -34,59 +34,50 @@ class My_Slide(Task):
     def _create_scene(self):
         self.sim.create_plane(z_offset=-0.4)
         self.sim.create_table(length=1.4, width=0.7, height=0.4, x_offset=-0.1)
-        self.sim.create_cylinder(
+        self.sim.create_box(
             body_name="object_r",
-            mass=2,
-            radius=self.object_size / 2,
-            height=self.object_size / 2,
+            half_extents=np.ones(3) * self.object_size / 2,
+            mass=1,
             position=np.array([0.1, 0, self.object_size / 2]),
             rgba_color=np.array([1, 0.1, 0.1, 1.0]), #r
-            lateral_friction=0.04,
         )
-        self.sim.create_cylinder(
+        self.sim.create_box(
             body_name="object_b",
-            mass=2,
-            radius=self.object_size / 2,
-            height=self.object_size / 2,
+            half_extents=np.ones(3) * self.object_size / 2,
+            mass=1,
             position=np.array([0.2, 0, self.object_size / 2]),
             rgba_color=np.array([0, 0, 1, 1.0]), #b
-            lateral_friction=0.04,
         )
-        self.sim.create_cylinder(
+        self.sim.create_box(
             body_name="object_g",
-            mass=2,
-            radius=self.object_size / 2,
-            height=self.object_size / 2,
+            half_extents=np.ones(3) * self.object_size / 2,
+            mass=1,
             position=np.array([-0.2, 0, self.object_size / 2]),
             rgba_color=np.array([0, 1, 0, 1.0]), #g
-            lateral_friction=0.04,
         )
-        self.sim.create_cylinder(
+        self.sim.create_box(
             body_name="target_b",
+            half_extents=np.ones(3) * self.object_size / 2,
             mass=0.0,
             ghost=True,
-            radius=self.object_size / 2,
-            height=self.object_size / 2,
             position=np.array([0.25, 0.25, self.object_size / 2]),
-            rgba_color=np.array([0, 0, 1, 0.01]), #blue
+            rgba_color=np.array([0, 0, 1, 0.1]), #blue
         )
-        self.sim.create_cylinder(
+        self.sim.create_box(
             body_name="target_g",
+            half_extents=np.ones(3) * self.object_size / 2,
             mass=0.0,
             ghost=True,
-            radius=self.object_size / 2,
-            height=self.object_size / 2,
             position=np.array([0.25, 0.5, 0, self.object_size / 2]),
             rgba_color=np.array([0, 0.9, 0, 0.1]), #blue
         )
-        self.sim.create_cylinder(
+        self.sim.create_box(
             body_name="target_r",
+            half_extents=np.ones(3) * self.object_size / 2,
             mass=0.0,
             ghost=True,
-            radius=self.object_size / 2,
-            height=self.object_size / 2,
             position=np.array([0.25, 0.75,  0, self.object_size / 2]),
-            rgba_color=np.array([1, 0.1, 0.1, 0.1]), #blue
+            rgba_color=np.array([1, 0.0, 0.0, 0.1]), #blue
         )
 
     def get_goal(self):
