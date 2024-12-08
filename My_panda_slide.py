@@ -27,40 +27,45 @@ class My_PandaSlideEnv(RobotTaskEnv):
 
 env = My_PandaSlideEnv(render_mode="rgb_array", reward_type='sparse', control_type= 'ee')
 
+
 images = []
-n = 200
+n = 100
 force1 = [100, 100, 90, 80, 70, 60, 50, 0, 0]
 force2 = [100, 100, 100, 100, 100, 100, 100, 0, 0]
-# env.task.reset()
-# env.robot.reset()
-for _ in range(n):
-    if env.task.is_success(env.robot.get_obs()[0:3], env.task.get_goal()):
-        env.task.reset()
-        env.robot.reset()
-        env.sim.step()  # Ensure the simulation updates
-        images.append(env.sim.render())
-        # break  # Exit loop after resetting
-    
-    achieved_goal = env.robot.get_obs()[0:3]
-    desired_goal = env.task.get_goal()
-    ee_displace = ((desired_goal - achieved_goal) ).tolist()
-    
+env.task.reset()
+env.task.object_type = 0
+for _ in range(300):
+    if env.task.is_success(env.robot.get_obs()[0:3], env.task.get_obs()[0:3]):
+        if env.task.object_type < 2:
+            
+            env.task.object_type += 1
+        elif env.task.object_type == 2:
+            env.task.reset()
+            env.robot.reset()
+            env.sim.step()  # Ensure the simulation updates
+            images.append(env.sim.render())
+            env.task.object_type = 0
+
+    # print(env.task.object_type)
+    achieved_goal = env.robot.get_obs()[0:3]                            # ee position x y z
+    desired_goal = env.task.get_obs()[0:3]                                  # box position x y z
+    ee_displace = ((desired_goal - achieved_goal) ).tolist()            # distance
+
     if not env.robot.block_gripper:
         action = np.append(ee_displace, 0)  # Append 0 for gripper action
     else:
         action = ee_displace
-     # 7 joint and 2 finger
-    env.robot.set_action(action, force2),
+    # 7 joint and 2 finger
+    env.robot.set_action(action, force2),                               # do action
     env.sim.step()
     images.append(env.sim.render())
 
 env.sim.close()
 
 
-# write_apng("anim20.png", images, delay=50)  # real-time rendering = 40 ms between frames
 images_pil = [Image.fromarray(img) for img in images]
 images_pil[0].save(
-    "D:/UNI/cac_thuat_toan_thich_nghi/pybullet/Slide/gif_force/g4.gif",
+    "D:/UNI/cac_thuat_toan_thich_nghi/pybullet/Slide/gif_force/gg5.gif",
     save_all=True,
     append_images=images_pil[1:],
     duration=50,  # 50 ms between frames
