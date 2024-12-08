@@ -29,6 +29,8 @@ env = My_PandaSlideEnv(render_mode="rgb_array", reward_type='sparse', control_ty
 
 images = []
 n = 200
+force1 = [100, 100, 90, 80, 70, 60, 50, 0, 0]
+force2 = [100, 100, 100, 100, 100, 100, 100, 0, 0]
 # env.task.reset()
 # env.robot.reset()
 for _ in range(n):
@@ -47,8 +49,8 @@ for _ in range(n):
         action = np.append(ee_displace, 0)  # Append 0 for gripper action
     else:
         action = ee_displace
-    force = [100, 100, 90, 80, 70, 60, 50, 0, 0] # 7 joint and 2 finger
-    env.robot.set_action(action, force),
+     # 7 joint and 2 finger
+    env.robot.set_action(action, force2),
     env.sim.step()
     images.append(env.sim.render())
 
@@ -58,7 +60,7 @@ env.sim.close()
 # write_apng("anim20.png", images, delay=50)  # real-time rendering = 40 ms between frames
 images_pil = [Image.fromarray(img) for img in images]
 images_pil[0].save(
-    "D:/UNI/cac_thuat_toan_thich_nghi/pybullet/Slide/gif/g12.gif",
+    "D:/UNI/cac_thuat_toan_thich_nghi/pybullet/Slide/gif_force/g4.gif",
     save_all=True,
     append_images=images_pil[1:],
     duration=50,  # 50 ms between frames
