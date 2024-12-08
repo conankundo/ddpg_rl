@@ -34,17 +34,22 @@ force1 = [100, 100, 90, 80, 70, 60, 50, 0, 0]
 force2 = [100, 100, 100, 100, 100, 100, 100, 0, 0]
 env.task.reset()
 env.task.object_type = 0
-for _ in range(300):
+for _ in range(100):
     if env.task.is_success(env.robot.get_obs()[0:3], env.task.get_obs()[0:3]):
         if env.task.object_type < 2:
-            
             env.task.object_type += 1
-        elif env.task.object_type == 2:
             env.task.reset()
             env.robot.reset()
             env.sim.step()  # Ensure the simulation updates
             images.append(env.sim.render())
+            
+        elif env.task.object_type == 2:
             env.task.object_type = 0
+            env.task.reset()
+            env.robot.reset()
+            env.sim.step()  # Ensure the simulation updates
+            images.append(env.sim.render())
+            
 
     # print(env.task.object_type)
     achieved_goal = env.robot.get_obs()[0:3]                            # ee position x y z
@@ -65,7 +70,7 @@ env.sim.close()
 
 images_pil = [Image.fromarray(img) for img in images]
 images_pil[0].save(
-    "D:/UNI/cac_thuat_toan_thich_nghi/pybullet/Slide/gif_force/gg5.gif",
+    "D:/UNI/cac_thuat_toan_thich_nghi/pybullet/Slide/gif_force/gg8.gif",
     save_all=True,
     append_images=images_pil[1:],
     duration=50,  # 50 ms between frames

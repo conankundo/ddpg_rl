@@ -148,15 +148,21 @@ class My_Slide(Task):
         self.sim.set_base_pose("target_g", np.array([0.25, 0.0, self.object_size / 2]), np.array([0.0, 0.0, 0.0, 1.0]))
         self.sim.set_base_pose("target_b", np.array([0.25, -0.25, self.object_size / 2]), np.array([0.0, 0.0, 0.0, 1.0]))
         # self.object_type = random.randint(0, 2)
-        # if self.object_type == 0:
-        #     self.sim.set_base_pose("object_r",np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
-        # elif self.object_type == 1:
-        #     self.sim.set_base_pose("object_g", np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
-        # elif self.object_type == 2:
-        #     self.sim.set_base_pose("object_b", np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
-        self.sim.set_base_pose("object_b", np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
-        self.sim.set_base_pose("object_g", np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
-        self.sim.set_base_pose("object_r",np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
+        if self.object_type == 0:
+            self.sim.set_base_pose("object_r",np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
+            self.sim.set_base_pose("object_g", np.array([5, 5, 0.1]), np.array([0.0, 0.0, 0.0, 1.0]))
+            self.sim.set_base_pose("object_b", np.array([5, 5, 0.1]), np.array([0.0, 0.0, 0.0, 1.0]))
+        elif self.object_type == 1:
+            self.sim.set_base_pose("object_r", np.array([5, 5, 0.1]), np.array([0.0, 0.0, 0.0, 1.0]))
+            self.sim.set_base_pose("object_g", np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
+            self.sim.set_base_pose("object_b", np.array([5, 5, 0.1]), np.array([0.0, 0.0, 0.0, 1.0]))
+        elif self.object_type == 2:
+            self.sim.set_base_pose("object_r", np.array([5, 5, 0.1]), np.array([0.0, 0.0, 0.0, 1.0]))
+            self.sim.set_base_pose("object_g", np.array([5, 5, 0.1]), np.array([0.0, 0.0, 0.0, 1.0]))
+            self.sim.set_base_pose("object_b", np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
+        # self.sim.set_base_pose("object_b", np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
+        # self.sim.set_base_pose("object_g", np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
+        # self.sim.set_base_pose("object_r",np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
 
 
     # def _sample_goal(self) -> np.ndarray:
