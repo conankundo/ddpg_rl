@@ -4,7 +4,7 @@ import sys
 sys.path.append("..")
 
 from My_panda import My_Panda
-from My_slide import My_Slide
+from My_CustomEnv import My_CustomEnv
 
 from panda_gym.envs.core import RobotTaskEnv
 from panda_gym.pybullet import PyBullet
@@ -22,7 +22,7 @@ class My_PandaSlideEnv(RobotTaskEnv):
     def __init__(self, render_mode: bool = False, reward_type: str = "sparse", control_type: str = "ee") -> None:
         sim = PyBullet(render_mode=render_mode)
         self.robot = My_Panda(sim, block_gripper=False, base_position=np.array([-0.6, 0.0, 0.0]), control_type=control_type)
-        self.task = My_Slide(sim, reward_type=reward_type)
+        self.task = My_CustomEnv(sim, reward_type=reward_type)
         super().__init__(self.robot, self.task)
 
 env = My_PandaSlideEnv(render_mode="rgb_array", reward_type='sparse', control_type= 'ee')
@@ -72,7 +72,7 @@ env.sim.close()
 
 images_pil = [Image.fromarray(img) for img in images]
 images_pil[0].save(
-    "D:/UNI/cac_thuat_toan_thich_nghi/pybullet/Slide/gif_force/ggg2.gif",
+    "D:/UNI/cac_thuat_toan_thich_nghi/pybullet/CustomEnv/gif_force/ggg2.gif",
     save_all=True,
     append_images=images_pil[1:],
     duration=50,  # 50 ms between frames

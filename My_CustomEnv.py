@@ -8,7 +8,7 @@ from panda_gym.envs.core import Task
 from panda_gym.utils import distance
 
 
-class My_Slide(Task):
+class My_CustomEnv(Task):
     def __init__(
         self,
         sim,
