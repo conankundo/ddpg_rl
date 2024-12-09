@@ -32,23 +32,21 @@ images = []
 n = 100
 force1 = [100, 100, 90, 80, 70, 60, 50, 0, 0]
 force2 = [500, 200, 200, 200, 200, 200, 200, 0, 0] 
-env.task.reset()
+observation, info = env.reset()
 env.task.object_type = 0
-for _ in range(100):
+for _ in range(200):
     if env.task.is_success(env.robot.get_obs()[0:3], env.task.get_obs()[0:3]):
         if env.task.object_type < 2:
             env.task.object_type += 1
-            env.task.reset()
-            env.robot.reset()
-            env.sim.step()  # Ensure the simulation updates
-            images.append(env.sim.render())
+            env.reset()  # Ensure the simulation updates
+            # images.append(env.sim.render())
             
         elif env.task.object_type == 2:
             env.task.object_type = 0
-            env.task.reset()
-            env.robot.reset()
-            env.sim.step()  # Ensure the simulation updates
-            images.append(env.sim.render())
+            env.reset()
+            # env.robot.reset()
+            # env.sim.step()  # Ensure the simulation updates
+            # images.append(env.sim.render())
             
 
     # print(env.task.object_type)
@@ -60,9 +58,13 @@ for _ in range(100):
         action = np.append(ee_displace, 0)  # Append 0 for gripper action
     else:
         action = ee_displace
-    # 7 joint and 2 finger
-    env.robot.set_action(action, force2),                               # do action
-    env.sim.step()
+
+    state = np.append(env.robot.get_obs(), env.task.get_obs())  # ee position x y z + velocity vx vy vz + finger width + obs x y z + obs base rotation wx0 wy0 wz0 + obs vx vy vz + obs wx wy wz 
+
+    # print(action)
+    env.robot.set_action(action),                               # do action
+    observation, reward, terminated, truncated, info = env.step(action)
+    print(observation, reward, terminated, truncated, info)
     images.append(env.sim.render())
 
 env.sim.close()
@@ -70,7 +72,7 @@ env.sim.close()
 
 images_pil = [Image.fromarray(img) for img in images]
 images_pil[0].save(
-    "D:/UNI/cac_thuat_toan_thich_nghi/pybullet/Slide/gif_force/gg9.gif",
+    "D:/UNI/cac_thuat_toan_thich_nghi/pybullet/Slide/gif_force/ggg2.gif",
     save_all=True,
     append_images=images_pil[1:],
     duration=50,  # 50 ms between frames

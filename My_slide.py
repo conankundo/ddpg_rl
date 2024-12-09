@@ -128,55 +128,61 @@ class My_Slide(Task):
         return observation
 
     def get_achieved_goal(self):
-        object_position = np.array(self.sim.get_base_position("object_r"))
+        
+        if self.object_type == 0:
+            object_position = np.array(self.sim.get_base_position("object_r"))
+        elif self.object_type == 1: 
+            object_position = np.array(self.sim.get_base_position("object_g"))
+        elif self.object_type == 2: 
+            object_position = np.array(self.sim.get_base_position("object_b"))
         return object_position
 
     def reset(self):
-        # object_position = self._sample_object()
-        self.goal = np.array([0.25, 0.75, self.object_size / 2])
+        object_position = self._sample_object()
+        self.goal = self._sample_goal()
         # object_position = np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0])
         self.sim.set_base_pose("target_r", np.array([0.25, 0.25, self.object_size / 2]), np.array([0.0, 0.0, 0.0, 1.0]))
         self.sim.set_base_pose("target_g", np.array([0.25, 0.0, self.object_size / 2]), np.array([0.0, 0.0, 0.0, 1.0]))
         self.sim.set_base_pose("target_b", np.array([0.25, -0.25, self.object_size / 2]), np.array([0.0, 0.0, 0.0, 1.0]))
         # self.object_type = random.randint(0, 2)
         if self.object_type == 0:
-            self.sim.set_base_pose("object_r",np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
+            self.sim.set_base_pose("object_r",np.array(object_position), np.array([0.0, 0.0, 0.0, 1.0]))
             self.sim.set_base_pose("object_g", np.array([5, 5, 0.1]), np.array([0.0, 0.0, 0.0, 1.0]))
             self.sim.set_base_pose("object_b", np.array([5, 5, 0.1]), np.array([0.0, 0.0, 0.0, 1.0]))
         elif self.object_type == 1:
             self.sim.set_base_pose("object_r", np.array([5, 5, 0.1]), np.array([0.0, 0.0, 0.0, 1.0]))
-            self.sim.set_base_pose("object_g", np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
+            self.sim.set_base_pose("object_g", np.array(object_position), np.array([0.0, 0.0, 0.0, 1.0]))
             self.sim.set_base_pose("object_b", np.array([5, 5, 0.1]), np.array([0.0, 0.0, 0.0, 1.0]))
         elif self.object_type == 2:
             self.sim.set_base_pose("object_r", np.array([5, 5, 0.1]), np.array([0.0, 0.0, 0.0, 1.0]))
             self.sim.set_base_pose("object_g", np.array([5, 5, 0.1]), np.array([0.0, 0.0, 0.0, 1.0]))
-            self.sim.set_base_pose("object_b", np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
+            self.sim.set_base_pose("object_b", np.array(object_position), np.array([0.0, 0.0, 0.0, 1.0]))
         # self.sim.set_base_pose("object_b", np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
         # self.sim.set_base_pose("object_g", np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
         # self.sim.set_base_pose("object_r",np.array([round(random.uniform(-0.25,0.25), 2), round(random.uniform(-0.25,0.25), 2), 0]), np.array([0.0, 0.0, 0.0, 1.0]))
 
 
-    # def _sample_goal(self) -> np.ndarray:
-    #     """Sample a goal."""
-    #     self.sub_goalr = np.array([0.25, 0.75, self.object_size / 2])  # z offset for the cube center
-    #     self.sub_goalg = np.array([0.25, 0.5, self.object_size / 2])  # z offset for the cube center
-    #     self.sub_goalb = np.array([0.25, 0.25, self.object_size / 2])  # z offset for the cube center
-    #     # noise1 = self.np_random.uniform(self.goal_range_low, self.goal_range_high)
-    #     # self.sub_goal1 += noise1
+    def _sample_goal(self) -> np.ndarray:
+        """Sample a goal."""
+        self.sub_goalr = np.array([0.25, 0.75, self.object_size / 2])  # z offset for the cube center
+        self.sub_goalg = np.array([0.25, 0.5, self.object_size / 2])  # z offset for the cube center
+        self.sub_goalb = np.array([0.25, 0.25, self.object_size / 2])  # z offset for the cube center
+        # noise1 = self.np_random.uniform(self.goal_range_low, self.goal_range_high)
+        # self.sub_goal1 += noise1
+        if self.object_type == 0:
+            goal = self.sub_goalr
+        elif self.object_type == 1:
+            goal = self.sub_goalg
+        elif self.object_type == 2:
+            goal = self.sub_goalb
+        return goal.copy()
 
-    #     # self.sub_goal2 = self.sub_goal1 + np.array([0.05, -0.05, 0.1])
-
-    #     # goal = np.concatenate((self.sub_goalr, self.sub_goalg, self.sub_goalb))
-    #     goal = self.sub_goalr
-
-    #     return goal.copy()
-
-    # def _sample_object(self) -> np.ndarray:
-    #     """Randomize start position of object."""
-    #     object_position = np.array([0.0, 0.0, self.object_size / 2])
-    #     noise = self.np_random.uniform(self.obj_range_low, self.obj_range_high)
-    #     object_position += noise
-    #     return object_position
+    def _sample_object(self) -> np.ndarray:
+        """Randomize start position of object."""
+        object_position = np.array([0.0, 0.0, self.object_size / 2])
+        noise = self.np_random.uniform(self.obj_range_low, self.obj_range_high)
+        object_position += noise
+        return object_position
 
     def is_success(self, achieved_goal, desired_goal) -> Union[np.ndarray, float]:
         d = distance(achieved_goal, desired_goal)
